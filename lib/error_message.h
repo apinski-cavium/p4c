@@ -54,6 +54,7 @@ struct ErrorMessage {
         : type(type), prefix(prefix), message(message), locations(locations), suffix(suffix) {}
 
     std::string getPrefix() const;
+    std::string getPostfix() const;
     std::string toString() const;
 };
 

@@ -270,9 +270,12 @@ cstring SourceInfo::toBriefSourceFragment() const {
 }
 
 cstring SourceInfo::toPositionString() const {
-    if (!isValid()) return "";
-    SourceFileLine position = sources->getSourceLine(start.getLineNumber());
-    return position.toString();
+    if (!isValid()) return "p4c";
+    unsigned line = 0, column = 0;
+    cstring file = toSourcePositionData(&line, &column);
+    if (file == "")
+        return "p4c";
+    return Util::printf_format("%s:%d:%d", file, line, column);
 }
 
 cstring SourceInfo::toSourcePositionData(unsigned* outLineNumber, unsigned* outColumnNumber) const {
@@ -298,7 +301,7 @@ cstring SourceInfo::getSourceFile() const {
 ////////////////////////////////////////////////////////
 
 cstring SourceFileLine::toString() const {
-    return Util::printf_format("%s(%d)", fileName.c_str(), sourceLine);
+    return Util::printf_format("%s:%d", fileName.c_str(), sourceLine);
 }
 
 }  // namespace Util
